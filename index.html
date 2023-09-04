@@ -8,7 +8,7 @@
             width: 100%;
         }
 
-        table, th, td {
+        table.double-border th, td {
             border: 1px solid black;
         }
 
@@ -20,6 +20,17 @@
         th:first-child, td:first-child {
             background-color: white;
         }
+
+        table.double-border {
+            border: 2px solid black;
+        }
+
+        .inside-table {
+            width: 75%;
+            margin: 20px auto;
+            border: 2px solid black;
+            background-color: white;
+        }
     </style>
 </head>
 <body>
@@ -29,7 +40,7 @@
         <button style="width:100px;height:100%;" onclick="generateTable()">更新</button>
     </div>
     <div style="width:100%;height:20px"></div>
-    <table id="weekTable">
+    <table id="weekTable" class="double-border">
         <tr>
             <th>週別</th>
             <th>號碼</th>
@@ -52,7 +63,7 @@
             console.log(`list: ${list}`)
         
 
-            return `<table>
+            return `<table class="inside-table">
                 <tr style="background-color: #B2EBD8;">
                     <th style="background-color: #AAAAAA;"></th>
                     <th>一</th>
@@ -119,6 +130,7 @@
                 dateCell.style.width = "25vw";
                 weekCell.style.width = "10vw";
                 timeCell.style.width = "60vw";
+                timeCell.style.backgroundColor = "#EFEFEF"
 
                 dateCell.textContent = startDateFormatted + " -> " + endDateFormatted;
                 weekCell.textContent = weekNumber;
