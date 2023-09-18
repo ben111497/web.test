@@ -3,12 +3,25 @@
 <head>
     <title>週表格</title>
     <style>
+        body, html {
+            margin: 5px;
+        }
+
+        .container {
+            display: grid;
+            width: 100%;
+        }
+
         table {
             border-collapse: collapse;
             width: 100%;
         }
 
-        table.double-border th, td {
+        .weekTable {
+            width: 100%;
+        }
+
+        table, th, td {
             border: 1px solid black;
         }
 
@@ -21,138 +34,157 @@
             background-color: white;
         }
 
-        table.double-border {
-            border: 2px solid black;
+        .button-container {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: flex-start;
         }
 
-        .inside-table {
-            width: 75%;
-            margin: 20px auto;
-            border: 2px solid black;
-            background-color: white;
+        .button {
+            width: 75px;
+            height: 75px;
+            margin: 5px 15px;
         }
     </style>
 </head>
 <body>
-    <div style="height:50px">
-        <label style="height:100%;font-size: 20px;" for="weekNumberInput">本週號碼 (1-8): </label>
-        <input style="width:100px;height:90%;font-size: 20px;text-align: center;"type="number" id="weekNumberInput" min="1" max="8" value="1">
-        <button style="width:100px;height:100%;" onclick="generateTable()">更新</button>
+    <div style="height:auto;margin:5px 0;">
+        <label style="height:100%;font-size: 20px;" for="weekNumberInput">選擇本週號碼 (1-8): </label>
+    </div>
+    <div class="button-container">
+        <button class="button" onclick="generateTable(1)">1</button>
+        <button class="button" onclick="generateTable(2)">2</button>
+        <button class="button" onclick="generateTable(3)">3</button>
+        <button class="button" onclick="generateTable(4)">4</button>
+        <button class="button" onclick="generateTable(5)">5</button>
+        <button class="button" onclick="generateTable(6)">6</button>
+        <button class="button" onclick="generateTable(7)">7</button>
+        <button class="button" onclick="generateTable(8)">8</button>
     </div>
     <div style="width:100%;height:20px"></div>
-    <table id="weekTable" class="double-border">
-        <tr>
-            <th>週別</th>
-            <th>號碼</th>
-            <th>上班日期＆時間</th>
-        </tr>
-    </table>
 
-    <script>
-          function getTime(week) {
-            let list = [
-                [0,0,0,1,0,1,1,1,0,0,1,1,1,1,0,1,1,0],
-                [1,1,0,1,0,1,1,0,0,1,0,0,1,0,1,1,1,0],
-                [1,1,0,0,1,1,0,0,0,1,0,1,1,1,0,1,1,0],
-                [1,1,0,0,1,1,0,1,1,1,1,0,1,1,0,0,0,0],
-                [0,1,1,1,1,0,1,1,1,0,0,0,1,1,0,1,1,0],
-                [1,0,1,1,1,0,1,1,0,1,1,0,1,0,1,0,0,0],
-                [1,0,0,1,1,0,1,0,1,1,1,0,0,1,1,1,0,0],
-                [1,0,1,1,1,0,1,0,0,1,0,1,0,1,1,1,1,0]
-            ][week - 1];
-            console.log(`list: ${list}`)
-        
-
-            return `<table class="inside-table">
-                <tr style="background-color: #B2EBD8;">
-                    <th style="background-color: #AAAAAA;"></th>
-                    <th>一</th>
-                    <th>二</th>
-                    <th>三</th>
-                    <th>四</th>
-                    <th>五</th>
-                    <th>六</th>
-                </tr>
-                <tr>
-                    <td style="background-color: #87cefa;">早</td>
-                    <td>${list[0] === 1 ? "☑️" : ""}</td>
-                    <td>${list[3] === 1 ? "☑️" : ""}</td>
-                    <td>${list[6] === 1 ? "☑️" : ""}</td>
-                    <td>${list[9] === 1 ? "☑️" : ""}</td>
-                    <td>${list[12] === 1 ? "☑️" : ""}</td>
-                    <td>${list[15] === 1 ? "☑️" : ""}</td>
-                </tr>
-                <tr>
-                    <td style="background-color: #87cefa;">午</td>
-                    <td>${list[1] === 1 ? "☑️" : ""}</td>
-                    <td>${list[4] === 1 ? "☑️" : ""}</td>
-                    <td>${list[7] === 1 ? "☑️" : ""}</td>
-                    <td>${list[10] === 1 ? "☑️" : ""}</td>
-                    <td>${list[13] === 1 ? "☑️" : ""}</td>
-                    <td>${list[16] === 1 ? "☑️" : ""}</td>
-                </tr>
-                <tr>
-                    <td style="background-color: #87cefa;">晚</td>
-                    <td>${list[2] === 1 ? "☑️" : ""}</td>
-                    <td>${list[5] === 1 ? "☑️" : ""}</td>
-                    <td>${list[8] === 1 ? "☑️" : ""}</td>
-                    <td>${list[11] === 1 ? "☑️" : ""}</td>
-                    <td>${list[14] === 1 ? "☑️" : ""}</td>
-                    <td>${list[17] === 1 ? "☑️" : ""}</td>
-                </tr>
-            </table>`;
-        }
-
-        function generateTable() {
-            const table = document.getElementById("weekTable");
-            table.innerHTML = "<tr><th>周別</th><th>號碼</th><th>診次</th></tr>";
-
-            const startDate = new Date();
-            startDate.setDate(startDate.getDate() - (startDate.getDay() - 1));
-            const endDate = new Date(startDate);
-            endDate.setDate(endDate.getDate() + 6);
-
-            const oneYearLater = new Date();
-            oneYearLater.setFullYear(oneYearLater.getFullYear() + 1);
-
-            const weekNumberInput = document.getElementById("weekNumberInput");
-            let weekNumber = parseInt(weekNumberInput.value);
-
-            while (endDate <= oneYearLater) {
-                const row = document.createElement("tr");
-                const dateCell = document.createElement("td");
-                const weekCell = document.createElement("td");
-                const timeCell = document.createElement("td");
-
-                const startDateFormatted = startDate.toISOString().slice(0, 10);
-                const endDateFormatted = endDate.toISOString().slice(0, 10);
-
-                dateCell.style.width = "25vw";
-                weekCell.style.width = "10vw";
-                timeCell.style.width = "60vw";
-                timeCell.style.backgroundColor = "#EFEFEF"
-
-                dateCell.textContent = startDateFormatted + " -> " + endDateFormatted;
-                weekCell.textContent = weekNumber;
-                timeCell.innerHTML = getTime(weekNumber);
-
-                row.appendChild(dateCell);
-                row.appendChild(weekCell);
-                row.appendChild(timeCell);
-
-                table.appendChild(row);
-
-                startDate.setDate(startDate.getDate() + 7);
-                endDate.setDate(endDate.getDate() + 7);
-                weekNumber = weekNumber % 8 + 1;
-
-                if (startDate > oneYearLater) {
-                    break;
-                }
-            }
-        }
-
-        //generateTable();
-    </script>
+    <!-- 使用外层容器包裹表格 -->
+    <div class="container">
+        <table id="weekTable">
+            <tr>
+                <th>週別</th>
+                <th>號碼</th>
+                <th>上班日期＆時間</th>
+            </tr>
+        </table>
+    </div>
 </body>
 </html>
+
+
+<script>
+    function getTime(week, startDate) {
+      let list = [
+          [0,0,0,1,0,1,1,1,0,0,1,1,1,1,0,1,1,0],
+          [1,1,0,1,0,1,1,0,0,1,0,0,1,0,1,1,1,0],
+          [1,1,0,0,1,1,0,0,0,1,0,1,1,1,0,1,1,0],
+          [1,1,0,0,1,1,0,1,1,1,1,0,1,1,0,0,0,0],
+          [0,1,1,1,1,0,1,1,1,0,0,0,1,1,0,1,1,0],
+          [1,0,1,1,1,0,1,1,0,1,1,0,1,0,1,0,0,0],
+          [1,0,0,1,1,0,1,0,1,1,1,0,0,1,1,1,0,0],
+          [1,0,1,1,1,0,1,0,0,1,0,1,0,1,1,1,1,0]
+      ][week - 1];
+
+      var currentDate = new Date()
+      currentDate.setDate(startDate.getDate())
+      var dataList = []
+      for (var i = 0; i < 6; i++) {
+          dataList.push(currentDate.toISOString().slice(0, 10))
+          currentDate.setDate(currentDate.getDate() + 1)
+      }
+
+      return `<table>
+          <tr style="background-color: #B2EBD8;">
+              <th style="background-color: #AAAAAA; font-size:20px"></th>
+              <th>一<br>(${dataList[0]})</th>
+              <th>二<br>(${dataList[1]})</th>
+              <th>三<br>(${dataList[2]})</th>
+              <th>四<br>(${dataList[3]})</th>
+              <th>五<br>(${dataList[4]})</th>
+              <th>六<br>(${dataList[5]})</th>
+          </tr>
+          <tr>
+              <td style="background-color: #87cefa;">早</td>
+              <td>${list[0] === 1 ? "☑️" : ""}</td>
+              <td>${list[3] === 1 ? "☑️" : ""}</td>
+              <td>${list[6] === 1 ? "☑️" : ""}</td>
+              <td>${list[9] === 1 ? "☑️" : ""}</td>
+              <td>${list[12] === 1 ? "☑️" : ""}</td>
+              <td>${list[15] === 1 ? "☑️" : ""}</td>
+          </tr>
+          <tr>
+              <td style="background-color: #87cefa;">午</td>
+              <td>${list[1] === 1 ? "☑️" : ""}</td>
+              <td>${list[4] === 1 ? "☑️" : ""}</td>
+              <td>${list[7] === 1 ? "☑️" : ""}</td>
+              <td>${list[10] === 1 ? "☑️" : ""}</td>
+              <td>${list[13] === 1 ? "☑️" : ""}</td>
+              <td>${list[16] === 1 ? "☑️" : ""}</td>
+          </tr>
+          <tr>
+              <td style="background-color: #87cefa;">晚</td>
+              <td>${list[2] === 1 ? "☑️" : ""}</td>
+              <td>${list[5] === 1 ? "☑️" : ""}</td>
+              <td>${list[8] === 1 ? "☑️" : ""}</td>
+              <td>${list[11] === 1 ? "☑️" : ""}</td>
+              <td>${list[14] === 1 ? "☑️" : ""}</td>
+              <td>${list[17] === 1 ? "☑️" : ""}</td>
+          </tr>
+      </table>`;
+  }
+
+  function generateTable(weekNumber) {
+      const table = document.getElementById("weekTable");
+      table.innerHTML = "<tr><th style=\"width:20%;\">周別</th><th style=\"width:5%;\">號碼</th><th style=\"width:75%;\">診次</th></tr>";
+
+      const startDate = new Date();
+      startDate.setDate(startDate.getDate() - (startDate.getDay() - 1));
+      const endDate = new Date(startDate);
+      endDate.setDate(endDate.getDate() + 6);
+
+      const oneYearLater = new Date();
+      oneYearLater.setFullYear(oneYearLater.getFullYear() + 1);
+
+      while (endDate <= oneYearLater) {
+          const row = document.createElement("tr");
+          const dateCell = document.createElement("td");
+          const weekCell = document.createElement("td");
+          const timeCell = document.createElement("td");
+
+          dateCell.style.fontSize = "20px"
+          weekCell.style.fontSize = "25px"
+
+          const startDateFormatted = startDate.toISOString().slice(0, 10);
+          const endDateFormatted = endDate.toISOString().slice(0, 10);
+
+          dateCell.style.width = "15vw";
+          weekCell.style.width = "10vw";
+          timeCell.style.width = "75vw";
+
+          dateCell.textContent = `${startDateFormatted} ➡ ${endDateFormatted}`
+          weekCell.textContent = weekNumber;
+          timeCell.innerHTML = getTime(weekNumber, startDate);
+
+          row.appendChild(dateCell);
+          row.appendChild(weekCell);
+          row.appendChild(timeCell);
+
+          table.appendChild(row);
+
+          startDate.setDate(startDate.getDate() + 7);
+          endDate.setDate(endDate.getDate() + 7);
+          weekNumber = weekNumber % 8 + 1;
+
+          if (startDate > oneYearLater) {
+              break;
+          }
+      }
+  }
+
+  //generateTable();
+</script>
