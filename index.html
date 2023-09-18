@@ -119,8 +119,7 @@
           [1,0,1,1,1,0,1,0,0,1,0,1,0,1,1,1,1,0]
       ][week - 1];
 
-      var currentDate = new Date()
-      currentDate.setDate(startDate.getDate())
+      const currentDate = new Date(startDate);
       var dataList = []
       for (var i = 0; i < 6; i++) {
           dataList.push(currentDate.toISOString().slice(0, 10))
