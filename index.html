@@ -170,12 +170,12 @@
       const table = document.getElementById("weekTable");
       table.innerHTML = "<tr><th style=\"width:20%;\">周別</th><th style=\"width:5%;\">號碼</th><th style=\"width:75%;\">診次</th></tr>";
 
-      const startDate = new Date();
+      const startDate = getNewDate();
       startDate.setDate(startDate.getDate() - (startDate.getDay() - 1));
       const endDate = new Date(startDate);
       endDate.setDate(endDate.getDate() + 6);
 
-      const oneYearLater = new Date();
+      const oneYearLater = getNewDate();
       oneYearLater.setFullYear(oneYearLater.getFullYear() + 1);
 
       while (endDate <= oneYearLater) {
@@ -212,6 +212,10 @@
               break;
           }
       }
+  }
+
+  function getNewDate() {
+    return new Date(new Date().toLocaleString("en-US", { timeZone: "Asia/Taipei" }));
   }
 
   //generateTable();

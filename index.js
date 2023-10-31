@@ -11,6 +11,6 @@ server.listen(port, hostname, () => {
   console.log(`Server running at http://${hostname}:${port}/`);
 });
 
-app.get('/index.html', (req, res) => {
+app.get('/index', (req, res) => {
   res.sendFile(__dirname + '/index.html');
 });
