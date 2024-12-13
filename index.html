@@ -125,7 +125,7 @@
         const dataList = [];
 
         for (let i = 0; i < 6; i++) {
-            const currentDate = new Date(startDate);
+            const currentDate = new Date();
             currentDate.setDate(currentDate.getDate() + i); 
             dataList.push(currentDate.toLocaleDateString("zh-TW", options));
         }
