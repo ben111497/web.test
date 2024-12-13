@@ -123,19 +123,19 @@
         const options = { timeZone: "Asia/Taipei", year: "numeric", month: "numeric", day: "numeric" };
 
         // 獲取當前日期
-        const currentDate = new Date();
+        const currentDate = new Date(startDate);
         // 獲取當前星期幾（0 是星期日，1 是星期一，依此類推）
         const currentDayOfWeek = currentDate.getDay();
         // 計算本週星期一的日期
-        const diffToMonday = currentDayOfWeek === 0 ? -6 : 1 - currentDayOfWeek;
-        currentDate.setDate(currentDate.getDate() + diffToMonday);
+        const diffToMonday = currentDayOfWeek === 0 ? - 6 : 1 - currentDayOfWeek;
+        currentDate.setDate(currentDate.getDate() + diffToMonday - 1);
+        startDate = new Date(currentDate)
 
         const dataList = [];
 
         for (let i = 0; i < 6; i++) {
-            const currentWeekDate = new Date(currentDate); // 創建新的日期對象
-            currentWeekDate.setDate(currentWeekDate.getDate() + i); // 遞增日期
-            dataList.push(currentWeekDate.toLocaleDateString("zh-TW", options)); // 格式化為台灣時間並添加到陣列
+            startDate.setDate(startDate.getDate() + 1); // 遞增日期
+            dataList.push(startDate.toLocaleDateString("zh-TW", options)); // 格式化為台灣時間並添加到陣列
         }
 
         console.log(dataList);
